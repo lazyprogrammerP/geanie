@@ -14,12 +14,12 @@ datasource db {
 }
 
 enum AgentSourceType {
-  URL
-  PDF
+  URL // Scrape
+  PDF // GPT Vision
   DOCX
   TXT
-  JPEG
-  PNG
+  JPEG // GPT Vision
+  PNG // GPT Vision
 }
 
 enum TaskType {

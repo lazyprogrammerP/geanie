@@ -16,7 +16,3 @@ export const AddAgentToProjectRequestValidator = z.object({
     .min(1)
     .max(12),
 });
-
-export const RunAgentByIdRequestValidator = z.object({
-  fileURL: z.string().url(),
-});

@@ -1,6 +1,7 @@
 import { Agent } from "@prisma/client";
 import { AddAgentToProjectRequest, AgentWithTasks } from "../interfaces/agents.interfaces";
 import prisma from "../prisma";
+import executeAgent from "../tools/execute-agent.tool";
 
 export class AgentsService {
   createAgent = async (data: AddAgentToProjectRequest, projectId: string, userId: string): Promise<Agent> => {
@@ -53,15 +54,21 @@ export class AgentsService {
     });
   };
 
-  //   runAgentById = async (agentId: string, projectId: string, userId: string, fileURL: string): Promise<null | Agent> => {
-  //     const agent = await this.getAgentById(agentId, projectId, userId);
+  runAgentById = async (agentId: string, projectId: string, userId: string, ctx: string): Promise<null | Record<string, any>> => {
+    const agent = await this.getAgentById(agentId, projectId, userId);
+    if (!agent) {
+      return null;
+    }
 
-  //     if (!agent) {
-  //       return null;
-  //     }
+    const executionResults = await executeAgent(agent.tasks, ctx);
+    if (!executionResults) {
+      return null;
+    }
 
-  //     const tasks = agent.tasks;
-
-  //     return results;
-  //   };
+    try {
+      return JSON.parse(executionResults);
+    } catch (error) {
+      throw new Error("Invalid JSON output");
+    }
+  };
 }

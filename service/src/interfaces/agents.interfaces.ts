@@ -1,7 +1,7 @@
 import { Agent, Task } from "@prisma/client";
 import { z } from "zod";
 import { ResponseStatus } from "../constants";
-import { AddAgentToProjectRequestValidator, RunAgentByIdRequestValidator } from "../validators/agents.validators";
+import { AddAgentToProjectRequestValidator } from "../validators/agents.validators";
 
 export type AddAgentToProjectRequest = z.infer<typeof AddAgentToProjectRequestValidator>;
 
@@ -45,7 +45,10 @@ export type RunAgentByIdRequestParams = {
   agentId: string;
 };
 
-export type RunAgentByIdRequest = z.infer<typeof RunAgentByIdRequestValidator>;
+export type RunAgentByIdRequest = {
+  file: Express.Multer.File;
+  url: string;
+};
 
 export type RunAgentByIdResponse = {
   status: ResponseStatus;
