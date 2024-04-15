@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import verifyJWT from "./middleware/verify-jwt";
+import agentsRoutes from "./routes/agents.routes";
 import authRoutes from "./routes/auth.routes";
 import projectsRoutes from "./routes/projects.routes";
 
@@ -29,5 +30,6 @@ app.use("/auth", authRoutes);
 app.use(verifyJWT);
 
 app.use("/projects", projectsRoutes);
+app.use("/agents", agentsRoutes);
 
 app.listen(PORT, () => console.log(`The server is running at http://127.0.0.1:${PORT}`));
