@@ -12,6 +12,10 @@ export type SignUpResponse = {
 
 export type SignInRequest = z.infer<typeof SignInRequestValidator>;
 
+export type JWTPayload = {
+  userId: string;
+};
+
 export type SignInResponse = {
   status: ResponseStatus;
   message: string; // TODO: Add a more specific message type

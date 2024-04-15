@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
-import { SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from "../interfaces/auth.interfaces";
+import { JWTPayload, SignInRequest, SignInResponse, SignUpRequest, SignUpResponse } from "../interfaces/auth.interfaces";
 import { UserService } from "../services/auth.services";
 import { SignInRequestValidator, SignUpRequestValidator } from "../validators/auth.validators";
 
@@ -41,7 +41,7 @@ export class UserController {
       return res.status(401).json({ status: "error", message: "Invalid email or password.", data: null });
     }
 
-    const tokenPayload = {
+    const tokenPayload: JWTPayload = {
       userId: user.id,
     };
 
