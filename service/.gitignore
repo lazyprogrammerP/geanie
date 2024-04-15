@@ -1,0 +1,13 @@
+node_modules
+
+# Keep environment variables out of version control
+.env
+
+# Ignore the lock file
+pnpm-lock.yaml
+
+# Ignore the cache
+pnpm-store
+
+# Ignore the build directory
+dist
