@@ -24,9 +24,15 @@ enum AgentSourceType {
 
 enum TaskType {
   EXTRACT
-  ClASSSIFY
-  SUMMARISE
+  CLASSIFY
   GENERATE
+}
+
+enum TaskDataType {
+  NUMBER
+  TEXT
+  BOOLEAN
+  LIST
 }
 
 model User {
@@ -78,6 +84,8 @@ model Task {
   id String @id @default(cuid())
 
   key String
+
+  dataType TaskDataType
 
   type        TaskType
   instruction String
