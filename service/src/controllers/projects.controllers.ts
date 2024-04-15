@@ -46,9 +46,6 @@ export class ProjectsController {
     }
 
     const projectId = req.params.projectId;
-    if (!projectId) {
-      return res.status(400).send({ status: "error", message: "Invalid request", data: null });
-    }
 
     const project = await this.projectsService.getProjectById(userId, projectId);
     if (!project) {
