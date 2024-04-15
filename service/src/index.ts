@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import verifyJWT from "./middleware/verify-jwt";
 import authRoutes from "./routes/auth.routes";
+import projectsRoutes from "./routes/projects.routes";
 
 dotenv.config();
 
@@ -26,5 +27,7 @@ app.use("/auth", authRoutes);
 
 // These route's are protected by the verifyJWT middleware
 app.use(verifyJWT);
+
+app.use("/projects", projectsRoutes);
 
 app.listen(PORT, () => console.log(`The server is running at http://127.0.0.1:${PORT}`));

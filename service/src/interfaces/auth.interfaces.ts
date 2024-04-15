@@ -6,7 +6,7 @@ export type SignUpRequest = z.infer<typeof SignUpRequestValidator>;
 
 export type SignUpResponse = {
   status: ResponseStatus;
-  message: string; // TODO: Add a more specific message type
+  message: string;
   data: z.ZodError | null;
 };
 
@@ -18,7 +18,7 @@ export type JWTPayload = {
 
 export type SignInResponse = {
   status: ResponseStatus;
-  message: string; // TODO: Add a more specific message type
+  message: string;
   data:
     | z.ZodError
     | null
