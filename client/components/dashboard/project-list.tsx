@@ -8,6 +8,7 @@ import {
   LinkIcon,
   XCircleIcon,
 } from "@heroicons/react/24/outline";
+import Link from "next/link";
 import { Fragment, useEffect, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
@@ -82,10 +83,13 @@ export default function ProjectList() {
                   </span>
                 </div>
 
-                <button className="flex items-center justify-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-900">
+                <Link
+                  href={`/in/projects/${project.id}`}
+                  className="flex items-center justify-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-900"
+                >
                   <LinkIcon className="h-5 w-5" />
                   <span>View Project</span>
-                </button>
+                </Link>
               </div>
             ))}
           </div>
@@ -115,6 +119,7 @@ export default function ProjectList() {
         >
           <XCircleIcon className="h-5 w-5" />
         </button>
+
         <AddProjectForm onProjectAdded={handleAddedProject} />
       </dialog>
     </Fragment>
