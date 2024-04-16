@@ -12,5 +12,12 @@ export default function SignOutButton() {
     router.push("/auth/sign-in");
   };
 
-  return <button onClick={handleSignOut}>Sign Out</button>;
+  return (
+    <button
+      onClick={handleSignOut}
+      className="flex items-center justify-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-900"
+    >
+      Sign Out
+    </button>
+  );
 }
