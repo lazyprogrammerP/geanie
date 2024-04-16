@@ -4,7 +4,7 @@ import Project from "@/interfaces/project.interface";
 import service from "@/lib/service";
 import { Fragment, useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import CreateProjectForm from "./add-project-form";
+import AddProjectForm from "./add-project-form";
 
 export default function ProjectList() {
   const [loadingProjects, setLoadingProjects] = useState(true);
@@ -50,7 +50,7 @@ export default function ProjectList() {
         ))
       )}
 
-      <CreateProjectForm onProjectAdded={handleAddedProject} />
+      <AddProjectForm onProjectAdded={handleAddedProject} />
     </Fragment>
   );
 }
