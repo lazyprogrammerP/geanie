@@ -37,7 +37,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <main>{children}</main>
+      <main className="space-y-4 p-8">{children}</main>
     </Fragment>
   );
 }
