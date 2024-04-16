@@ -5,17 +5,17 @@ import { useEffect, useState } from "react";
 
 const useUser = () => {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
     setUser(typeof user === "string" ? JSON.parse(user) : null);
-    setLoading(false);
+    setLoadingUser(false);
   }, []);
 
   return {
     user,
-    loading,
+    loadingUser,
   };
 };
 
