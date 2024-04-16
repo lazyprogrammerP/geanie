@@ -4,6 +4,7 @@ import verifyJWT from "./middleware/verify-jwt";
 import agentsRoutes from "./routes/agents.routes";
 import authRoutes from "./routes/auth.routes";
 import projectsRoutes from "./routes/projects.routes";
+import cors from "cors";
 
 dotenv.config();
 
@@ -18,6 +19,11 @@ declare global {
 const app = express();
 const PORT = process.env.PORT || 8080;
 
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 
 app.get("/health", (req, res) => {
