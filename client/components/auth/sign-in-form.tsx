@@ -37,7 +37,7 @@ export default function SignInForm() {
       localStorage.setItem("token", signInResponse.data.data.token);
       localStorage.setItem("user", JSON.stringify(signInResponse.data.data.user));
 
-      router.push("/dashboard");
+      router.push("/in/dashboard");
       toast.success("Sign In Successful! Redirecting to Dashboard...");
     }
 
