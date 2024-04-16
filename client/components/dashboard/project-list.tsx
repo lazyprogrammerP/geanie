@@ -71,7 +71,7 @@ export default function ProjectList() {
                 className="col-span-12 space-y-4 rounded-md border border-zinc-800 bg-zinc-900 p-4 md:col-span-6 lg:col-span-4"
               >
                 <div className="space-y-2">
-                  <h3 className="font-bold">{project.name}</h3>
+                  <h3 className="font-medium">{project.name}</h3>
                   <p className="text-sm text-zinc-300">{project.description}</p>
                 </div>
 
