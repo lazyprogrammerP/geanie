@@ -1,8 +1,10 @@
 "use client";
 
 import service from "@/lib/service";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { FormEvent, Fragment, useState } from "react";
+import { ClipLoader } from "react-spinners";
 import { toast } from "react-toastify";
 
 export default function SignInForm() {
@@ -35,7 +37,10 @@ export default function SignInForm() {
 
     if (signInResponse.data.status === "success") {
       localStorage.setItem("token", signInResponse.data.data.token);
-      localStorage.setItem("user", JSON.stringify(signInResponse.data.data.user));
+      localStorage.setItem(
+        "user",
+        JSON.stringify(signInResponse.data.data.user),
+      );
 
       router.push("/in/dashboard");
       toast.success("Sign In Successful! Redirecting to Dashboard...");
@@ -45,18 +50,53 @@ export default function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSignIn}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" name="email" />
-      </div>
+    <Fragment>
+      <h1 className="text-4xl font-bold">Sign In</h1>
 
-      <div>
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" name="password" />
-      </div>
+      <form onSubmit={handleSignIn} className="space-y-4">
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="john.doe@example.com"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
 
-      <button type="submit">{signingIn ? "Signing In..." : "Sign In"}</button>
-    </form>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="password" className="text-sm font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="TheNukesLieBeneathUs123!"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={signingIn}
+          className="flex items-center justify-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-900"
+        >
+          <span>Sign In</span>
+          {signingIn ? <ClipLoader size={18} color="rgb(24, 24, 27)" /> : null}
+        </button>
+      </form>
+
+      <p className="text-zinc-300">
+        Don't have an account with us yet? Then,{" "}
+        <Link href={"/auth/sign-up"} className="underline">
+          Sign Up
+        </Link>
+        !
+      </p>
+    </Fragment>
   );
 }

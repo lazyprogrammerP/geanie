@@ -1,9 +1,11 @@
 "use client";
 
 import service from "@/lib/service";
-import { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FormEvent, Fragment, useState } from "react";
+import { ClipLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 export default function SignUpForm() {
   const router = useRouter();
@@ -52,28 +54,78 @@ export default function SignUpForm() {
   };
 
   return (
-    <form onSubmit={handleSignUp}>
-      <div>
-        <label htmlFor="name">Name</label>
-        <input id="name" name="name" />
-      </div>
+    <Fragment>
+      <h1 className="text-4xl font-bold">Sign Up</h1>
 
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="email" name="email" />
-      </div>
+      <form onSubmit={handleSignUp} className="space-y-4">
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="name" className="text-sm font-medium">
+            Name
+          </label>
+          <input
+            id="name"
+            name="name"
+            placeholder="John Doe"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
 
-      <div>
-        <label htmlFor="password">Password</label>
-        <input id="password" type="password" name="password" />
-      </div>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="email" className="text-sm font-medium">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="john.doe@example.com"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
 
-      <div>
-        <label htmlFor="confirmPassword">Confirm Password</label>
-        <input id="confirmPassword" type="password" name="confirmPassword" />
-      </div>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="password" className="text-sm font-medium">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="TheNukesLieBeneathUs123!"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
 
-      <button type="submit">{signingUp ? "Signing Up..." : "Sign Up"}</button>
-    </form>
+        <div className="flex flex-col space-y-2">
+          <label htmlFor="confirmPassword" className="text-sm font-medium">
+            Confirm Password
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            name="confirmPassword"
+            placeholder="TheNukesLieBeneathUs123!"
+            className="rounded-md border border-zinc-800 bg-zinc-800/25 p-4 text-sm"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={signingUp}
+          className="flex items-center justify-center gap-2 rounded-md bg-zinc-100 px-4 py-2 font-medium text-zinc-900"
+        >
+          <span>Sign Up</span>
+          {signingUp ? <ClipLoader size={18} color="rgb(24, 24, 27)" /> : null}
+        </button>
+      </form>
+
+      <p className="text-zinc-300">
+        Already have an account with us? Then,{" "}
+        <Link href={"/auth/sign-in"} className="underline">
+          Sign In
+        </Link>
+        !
+      </p>
+    </Fragment>
   );
 }
