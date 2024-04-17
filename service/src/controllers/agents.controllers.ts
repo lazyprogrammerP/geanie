@@ -106,8 +106,7 @@ export class AgentsController {
         contents = fileLoader.loadTXT(filePath);
         break;
       case ".jpeg":
-        contents = await fileLoader.loadImage(filePath, file);
-        break;
+      case ".jpg":
       case ".png":
         contents = await fileLoader.loadImage(filePath, file);
         break;
