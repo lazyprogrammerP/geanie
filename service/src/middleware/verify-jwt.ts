@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import jsonwebtoken from "jsonwebtoken";
 import { JWTPayload } from "../interfaces/auth.interfaces";
+import prisma from "../prisma";
 
 export default async function verifyJWT(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
@@ -17,6 +18,15 @@ export default async function verifyJWT(req: Request, res: Response, next: NextF
 
   try {
     const decoded = jsonwebtoken.verify(token, process.env.JWT_SECRET) as JWTPayload;
+    if (!decoded.userId) {
+      return res.status(401).json({ status: "error", message: "Unauthorized.", data: null });
+    }
+
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+    if (!user) {
+      return res.status(401).json({ status: "error", message: "Unauthorized.", data: null });
+    }
+
     req.userId = decoded.userId;
     next();
   } catch (error) {

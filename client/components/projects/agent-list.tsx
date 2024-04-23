@@ -71,7 +71,7 @@ export default function AgentList() {
               <ClipLoader size={24} color="rgb(244, 244, 245)" />
             </div>
           ) : project?.agents?.length ? (
-            <div className="grid w-full grid-cols-12">
+            <div className="grid w-full grid-cols-12 gap-4">
               {project?.agents?.map((agent) => (
                 <div
                   key={agent.id}

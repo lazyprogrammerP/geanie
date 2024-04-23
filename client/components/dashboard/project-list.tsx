@@ -65,7 +65,7 @@ export default function ProjectList() {
             <ClipLoader size={24} color="rgb(244, 244, 245)" />
           </div>
         ) : projects.length ? (
-          <div className="grid w-full grid-cols-12">
+          <div className="grid w-full grid-cols-12 gap-4">
             {projects.map((project) => (
               <div
                 key={project.id}
@@ -111,16 +111,20 @@ export default function ProjectList() {
       />
       <dialog
         open={showAddProjectDialog}
-        className="relative w-11/12 max-w-lg rounded-2xl bg-zinc-900 p-8 text-zinc-100"
+        className="fixed left-1/2 top-[calc(50%-16px)] flex w-11/12 -translate-x-1/2  -translate-y-1/2 items-center justify-center bg-transparent"
       >
-        <button
-          onClick={toggleAddProjectDialog}
-          className="absolute right-4 top-4"
-        >
-          <XCircleIcon className="h-5 w-5" />
-        </button>
+        {showAddProjectDialog ? (
+          <div className="relative max-h-[90vh] w-full max-w-lg overflow-scroll rounded-2xl bg-zinc-900 p-8 text-zinc-100">
+            <button
+              onClick={toggleAddProjectDialog}
+              className="absolute right-4 top-4"
+            >
+              <XCircleIcon className="h-5 w-5" />
+            </button>
 
-        <AddProjectForm onProjectAdded={handleAddedProject} />
+            <AddProjectForm onProjectAdded={handleAddedProject} />
+          </div>
+        ) : null}
       </dialog>
     </Fragment>
   );
