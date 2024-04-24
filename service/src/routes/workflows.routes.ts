@@ -23,6 +23,9 @@ const upload = multer({ storage });
 // Create a New Workflow in a Project
 workflowsRoutes.post("/:projectId", workflowsController.addWorkflowToProject);
 
+// Get All Workflows in a Project
+workflowsRoutes.get("/:projectId", workflowsController.fetchWorkflowsByProjectId);
+
 // Run a Workflow in a Project
 workflowsRoutes.post("/:projectId/:workflowId/run", upload.any(), workflowsController.runWorkflowById);
 

@@ -21,6 +21,19 @@ export class WorkflowsService {
     });
   };
 
+  getWorkflowsByProjectId = async (projectId: string, userId: string): Promise<Workflow[]> => {
+    return prisma.workflow.findMany({
+      where: {
+        project: {
+          id: projectId,
+          users: {
+            some: { id: userId },
+          },
+        },
+      },
+    });
+  };
+
   getWorkflowById = async (workflowId: string, projectId: string, userId: string): Promise<null | Workflow> => {
     return prisma.workflow.findUnique({
       where: {

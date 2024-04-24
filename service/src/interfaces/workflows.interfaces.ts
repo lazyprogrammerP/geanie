@@ -13,6 +13,12 @@ export type GetWorkflowsByProjectIdRequestParams = {
   projectId: string;
 };
 
+export type GetWorkflowsByProjectIdResponse = {
+  status: ResponseStatus;
+  message: string;
+  data: null | Workflow[];
+};
+
 export type AddWorkflowToProjectResponse = {
   status: ResponseStatus;
   message: string;

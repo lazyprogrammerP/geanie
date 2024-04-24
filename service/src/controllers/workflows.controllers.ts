@@ -1,6 +1,14 @@
 import { Request, Response } from "express";
 import { ResponseStatus } from "../constants";
-import { AddWorkflowToProjectRequest, AddWorkflowToProjectRequestParams, AddWorkflowToProjectResponse, GetWorkflowsByProjectIdRequestParams, RunWorkflowByIdRequestParams, RunWorkflowByIdResponse } from "../interfaces/workflows.interfaces";
+import {
+  AddWorkflowToProjectRequest,
+  AddWorkflowToProjectRequestParams,
+  AddWorkflowToProjectResponse,
+  GetWorkflowsByProjectIdRequestParams,
+  GetWorkflowsByProjectIdResponse,
+  RunWorkflowByIdRequestParams,
+  RunWorkflowByIdResponse,
+} from "../interfaces/workflows.interfaces";
 import { AgentsService } from "../services/agents.services";
 import { WorkflowsService } from "../services/workflows.services";
 import loadFile from "../utils/load-file";
@@ -151,7 +159,20 @@ export class WorkflowsController {
     return res.status(201).send({ status: "success", message: "Workflow created successfully", data: workflow });
   };
 
-  runWorkflowById = async (req: Request<RunWorkflowByIdRequestParams, RunWorkflowByIdResponse, null, null>, res: Response<RunWorkflowByIdResponse>) => {
+  fetchWorkflowsByProjectId = async (req: Request<GetWorkflowsByProjectIdRequestParams, GetWorkflowsByProjectIdResponse, null, null>, res: Response<GetWorkflowsByProjectIdResponse>) => {
+    const userId = req.userId;
+    if (!userId) {
+      return res.status(401).send({ status: "error", message: "Unauthorized", data: null });
+    }
+
+    const projectId = req.params.projectId;
+
+    const workflows = await this.workflowsService.getWorkflowsByProjectId(projectId, userId);
+
+    return res.status(200).send({ status: "success", message: "Workflows fetched successfully", data: workflows });
+  };
+
+  runWorkflowById = async (req: Request<RunWorkflowByIdRequestParams, RunWorkflowByIdResponse, null>, res: Response<RunWorkflowByIdResponse>) => {
     const userId = req.userId;
     if (!userId) {
       return res.status(401).send({ status: "error", message: "Unauthorized", data: null });
