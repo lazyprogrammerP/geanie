@@ -14,7 +14,7 @@ import {
   RunAgentByIdResponse,
 } from "../interfaces/agents.interfaces";
 import { AgentsService } from "../services/agents.services";
-import FileLoader from "../tools/load-files";
+import FileLoader from "../tools/file-loader";
 import { AddAgentToProjectRequestValidator } from "../validators/agents.validators";
 
 export class AgentsController {
