@@ -55,12 +55,30 @@ model Project {
   name        String @unique
   description String
 
-  agents Agent[]
+  agents    Agent[]
+  workflows Workflow[]
 
   users User[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Workflow {
+  id String @id @default(cuid())
+
+  name        String
+  description String
+
+  workflowItems Json
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([projectId, name])
 }
 
 model Agent {
