@@ -10,6 +10,10 @@ jobs:
   build-and-deploy-service:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: service
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3.3.0
