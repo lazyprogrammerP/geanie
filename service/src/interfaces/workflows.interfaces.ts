@@ -1,4 +1,4 @@
-import { Workflow } from "@prisma/client";
+import { Prisma, Workflow } from "@prisma/client";
 import { z } from "zod";
 import { ResponseStatus } from "../constants";
 import { AddWorkflowToProjectRequestValidator } from "../validators/workflows.validators";
@@ -6,6 +6,10 @@ import { AddWorkflowToProjectRequestValidator } from "../validators/workflows.va
 export type AddWorkflowToProjectRequest = z.infer<typeof AddWorkflowToProjectRequestValidator>;
 
 export type AddWorkflowToProjectRequestParams = {
+  projectId: string;
+};
+
+export type GetWorkflowsByProjectIdRequestParams = {
   projectId: string;
 };
 
@@ -18,4 +22,10 @@ export type AddWorkflowToProjectResponse = {
 export type RunWorkflowByIdRequestParams = {
   projectId: string;
   workflowId: string;
+};
+
+export type RunWorkflowByIdResponse = {
+  status: ResponseStatus;
+  message: string;
+  data: null | Prisma.JsonValue;
 };
