@@ -1,0 +1,55 @@
+name: Build and Deploy Service
+
+on:
+  workflow_dispatch:
+
+env:
+  # Replace with your Google Cloud project ID
+  PROJECT_ID: geanie-421321
+  # Replace with your Cloud Run service name
+  SERVICE_NAME: geanie-service
+  # Replace with the region where you want to deploy
+  REGION: asia-south1
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentialsJson: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+
+      - name: Set Docker cache layer
+        uses: actions/cache@v3
+        with:
+          path: ~/.docker/dch
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          restore-keys: |
+            ${{ runner.os }}-docker-
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            --build-arg PORT=${{ vars.PORT }} \
+            --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
+            --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+            --build-arg ENCODER_SERVICE_URL=${{ vars.ENCODER_SERVICE_URL }} \
+            -t "gcr.io/$PROJECT_ID/$SERVICE_NAME:latest" .
+
+      - name: Push Docker image to Artifact Registry
+        uses: google-github-actions/artifact-registry@v2
+        with:
+          url: "gcr.io/$PROJECT_ID"
+          image: "$SERVICE_NAME:latest"
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:latest" \
+            --platform managed \
+            --region $REGION
