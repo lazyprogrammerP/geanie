@@ -38,15 +38,15 @@ jobs:
             --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
             --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
             --build-arg ENCODER_SERVICE_URL=${{ vars.ENCODER_SERVICE_URL }} \
-            -t "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/geanie-service:${{ github.sha }}" .
-          docker push "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/geanie-service:${{ github.sha }}"
+            -t "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-service:${{ github.sha }}" .
+          docker push "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-service:${{ github.sha }}"
 
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v0
         with:
           service: geanie-service
           region: ${{ vars.GCP_GAR_LOCATION }}
-          image: ${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/geanie-service:${{ github.sha }}
+          image: ${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-service:${{ github.sha }}
           flags: "--min-instances=0 --max-instances=4 --cpu=2 --memory=2Gi --allow-unauthenticated"
 
       - name: Show Output
