@@ -33,4 +33,4 @@ ENV OPENAI_API_KEY=$OPENAI_API_KEY
 EXPOSE $PORT
 
 # Command to run the FastAPI application
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "0.0.0.0"]
+CMD ["python", "main.py"]
