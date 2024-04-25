@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 from fastapi import FastAPI, File, UploadFile
+import os
 
 # Utils
 from utils.image_to_base64 import image_to_base64
@@ -8,6 +9,8 @@ from utils.pdf_to_image_base64s import pdf_to_image_base64s
 from utils.read_pdf import read_pdf
 
 load_dotenv()
+PORT = int(os.getenv("PORT", 8000))
+
 app = FastAPI()
 
 
@@ -32,3 +35,7 @@ async def image_to_text(file: UploadFile = File(...)):
     contents = "\n".join(image_contents)
 
     return {"data": contents}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=PORT)
