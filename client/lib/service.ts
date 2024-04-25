@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const service = axios.create({
-  baseURL: "http://127.0.0.1:8080",
+  baseURL: process.env.NEXT_PUBLIC_SERVICE_URL,
 });
 
 service.interceptors.request.use((config) => {
