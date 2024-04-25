@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 const service = axios.create({
-  baseURL: process.env.SERVICE_URL,
+  baseURL: process.env.NEXT_PUBLIC_SERVICE_URL,
 });
 
 service.interceptors.request.use((config) => {
