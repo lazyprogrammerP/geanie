@@ -1,0 +1,50 @@
+name: Build and Deploy Encoder
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy-encoder:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: encoder
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Authenticate to Google Cloud
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: "${{ secrets.GCP_SA_KEY }}"
+
+      - name: Docker Auth
+        uses: "docker/login-action@v1"
+        with:
+          username: "_json_key"
+          password: "${{ secrets.GCP_SA_KEY }}"
+          registry: "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev"
+
+      - name: Build and Push Container
+        run: |-
+          docker build \
+            --build-arg PORT=${{ vars.PORT }} \
+            --build-arg OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+            -t "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-encoder:${{ github.sha }}" .
+          docker push "${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-encoder:${{ github.sha }}"
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v0
+        with:
+          service: geanie-encoder
+          region: ${{ vars.GCP_GAR_LOCATION }}
+          image: ${{ vars.GCP_GAR_LOCATION }}-docker.pkg.dev/${{ vars.GCP_PROJECT_ID }}/newron/geanie-encoder:${{ github.sha }}
+          flags: "--min-instances=0 --max-instances=4 --cpu=2 --memory=2Gi --allow-unauthenticated"
+
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}
