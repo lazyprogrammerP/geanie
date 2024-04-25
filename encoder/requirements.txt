@@ -1,0 +1,6 @@
+fastapi==0.110.1
+openai==1.18.0
+pdfplumber==0.11.0
+python-dotenv==1.0.1
+python-multipart==0.0.9
+uvicorn==0.29.0
