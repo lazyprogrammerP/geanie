@@ -32,6 +32,8 @@ export default function AgentList() {
   };
 
   useEffect(() => {
+    if (!projectId) return;
+
     service
       .request({
         method: "GET",
@@ -48,7 +50,7 @@ export default function AgentList() {
 
         setLoadingProject(false);
       });
-  }, []);
+  }, [projectId]);
 
   return (
     <Fragment>

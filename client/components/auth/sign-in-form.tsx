@@ -91,7 +91,7 @@ export default function SignInForm() {
       </form>
 
       <p className="text-zinc-300">
-        Don't have an account with us yet? Then,{" "}
+        Don&apos;t have an account with us yet? Then,{" "}
         <Link href={"/auth/sign-up"} className="underline">
           Sign Up
         </Link>
