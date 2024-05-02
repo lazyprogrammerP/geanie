@@ -4,7 +4,7 @@ import prisma from "../prisma";
 import executeAgent from "../tools/execute-agent.tool";
 
 export class AgentsService {
-  createAgent = async (data: AddAgentToProjectRequest, projectId: string, userId: string): Promise<Agent> => {
+  createAgent = async (data: AddAgentToProjectRequest, projectId: string, userId: string): Promise<AgentWithTasks> => {
     return await prisma.agent.create({
       data: {
         name: data.name,
@@ -20,6 +20,9 @@ export class AgentsService {
         tasks: {
           create: data.tasks,
         },
+      },
+      include: {
+        tasks: true,
       },
     });
   };
