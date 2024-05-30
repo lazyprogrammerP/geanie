@@ -16,13 +16,10 @@ app = FastAPI()
 
 @app.post("/pdf-to-text")
 async def pdf_to_text(file: UploadFile = File(...)):
-    contents = read_pdf(file.file)
+    image_base64s = pdf_to_image_base64s(file.file)
 
-    if not contents:
-        image_base64s = pdf_to_image_base64s(file.file)
-
-        image_contents = await batch_ocr(image_base64s)
-        contents = "\n".join(image_contents)
+    image_contents = await batch_ocr(image_base64s)
+    contents = "\n".join(image_contents)
 
     return {"data": contents}
 
