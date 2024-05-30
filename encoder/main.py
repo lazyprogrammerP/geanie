@@ -14,6 +14,15 @@ PORT = int(os.getenv("PORT", 8000))
 app = FastAPI()
 
 
+@app.post("/pdf-to-base64s")
+async def pdf_to_base64s_handler(file: UploadFile = File(...)):
+    image_base64s = pdf_to_image_base64s(file.file)
+
+    # image_contents = await batch_ocr(image_base64s)
+    # contents = "\n".join(image_contents)
+
+    return image_base64s
+
 @app.post("/pdf-to-text")
 async def pdf_to_text(file: UploadFile = File(...)):
     image_base64s = pdf_to_image_base64s(file.file)
@@ -32,6 +41,16 @@ async def image_to_text(file: UploadFile = File(...)):
     contents = "\n".join(image_contents)
 
     return {"data": contents}
+
+
+@app.post("/image-to-base64s")
+async def image_to_base64s_handler(file: UploadFile = File(...)):
+    image_base64 = image_to_base64(file.file.read())
+
+    # image_contents = await batch_ocr([image_base64])
+    # contents = "\n".join(image_contents)
+
+    return image_base64
 
 if __name__ == "__main__":
     import uvicorn
