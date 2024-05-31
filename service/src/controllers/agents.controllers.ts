@@ -98,6 +98,7 @@ export class AgentsController {
     switch (extension.toLowerCase()) {
       case ".pdf":
         contents = await fileLoader.loadPDF(filePath, file);
+        console.log(contents)
         break;
       case ".docx":
         contents = await fileLoader.loadDOCX(filePath);
