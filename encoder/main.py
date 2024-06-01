@@ -15,7 +15,11 @@ app = FastAPI()
 
 @app.post("/pdf-to-base64s")
 async def pdf_to_base64s(file: UploadFile = File(...)):
-    pdf_base64s = pdf_to_image_base64s(file.file)
+    contents = await file.read()
+    with open(file.filename, "wb") as f:
+        f.write(contents)
+    
+    pdf_base64s = pdf_to_image_base64s(file.filename)
     return {"data": pdf_base64s}
 
 @app.post("/image-to-base64")
