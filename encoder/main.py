@@ -13,6 +13,15 @@ PORT = int(os.getenv("PORT", 8000))
 
 app = FastAPI()
 
+@app.post("/pdf-to-base64s")
+async def pdf_to_base64s(file: UploadFile = File(...)):
+    pdf_base64s = pdf_to_image_base64s(file.file)
+    return {"data": pdf_base64s}
+
+@app.post("/image-to-base64")
+async def image_to_base64_handler(file: UploadFile = File(...)):
+    image_base64 = image_to_base64(file.file)
+    return {"data": image_base64}
 
 @app.post("/pdf-to-text")
 async def pdf_to_text(file: UploadFile = File(...)):
