@@ -29,20 +29,21 @@ async def image_to_base64_handler(file: UploadFile = File(...)):
 
 @app.post("/pdf-to-text")
 async def pdf_to_text(file: UploadFile = File(...)):
-    contents = read_pdf(file.file)
+    contents = await file.read()
+    with open(file.filename, "wb") as f:
+        f.write(contents)
 
-    if not contents:
-        image_base64s = pdf_to_image_base64s(file.file)
+    image_base64s = pdf_to_image_base64s(file.filename)
 
-        image_contents = await batch_ocr(image_base64s)
-        contents = "\n".join(image_contents)
+    image_contents = await batch_ocr(image_base64s)
+    contents = "\n".join(image_contents)
 
     return {"data": contents}
 
 
 @app.post("/image-to-text")
 async def image_to_text(file: UploadFile = File(...)):
-    image_base64 = image_to_base64(file.file.read())
+    image_base64 = image_to_base64(await file.read())
 
     image_contents = await batch_ocr([image_base64])
     contents = "\n".join(image_contents)
