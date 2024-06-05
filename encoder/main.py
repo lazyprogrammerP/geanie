@@ -25,7 +25,7 @@ async def pdf_to_base64s(file: UploadFile = File(...)):
 @app.post("/image-to-base64")
 async def image_to_base64_handler(file: UploadFile = File(...)):
     image_base64 = image_to_base64(await file.read())
-    return {"data": image_base64}
+    return {"data": [image_base64]}
 
 @app.post("/pdf-to-text")
 async def pdf_to_text(file: UploadFile = File(...)):
